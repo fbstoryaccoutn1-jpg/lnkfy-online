@@ -43,7 +43,244 @@ function escapeHtml(str: string): string {
 }
 
 app.get('/', async (c) => {
-  return c.redirect('/login');
+  return c.html(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="LinkForge — Smart URL Shortener" />
+  <meta property="og:description" content="Create short links with custom social media previews. Fast, reliable, and easy to use." />
+  <meta property="og:url" content="https://lnkfy.online" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="LinkForge" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="description" content="LinkForge — Create short links with custom social media previews. Fast, reliable URL shortener." />
+  <title>LinkForge — Smart URL Shortener</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --accent: #7c6af7;
+      --accent2: #f76aab;
+      --green: #6af7ab;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    /* BG */
+    .bg-mesh { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background: radial-gradient(ellipse 60% 50% at 15% 20%, rgba(124,106,247,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 85% 80%, rgba(247,106,171,0.14) 0%, transparent 60%); }
+    .grid-lines { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 50px 50px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 60px; backdrop-filter: blur(20px);
+      background: rgba(10,10,15,0.8); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .nav-logo-text { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .btn-nav { padding: 9px 22px; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-filled { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: white; font-weight: 600; }
+    .btn-filled:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* HERO */
+    .hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 20px 80px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px;
+      background: rgba(124,106,247,0.12); border: 1px solid rgba(124,106,247,0.25);
+      border-radius: 20px; font-size: 13px; color: var(--accent); margin-bottom: 28px; }
+    .hero-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(40px, 7vw, 80px); font-weight: 800; line-height: 1.08; margin-bottom: 24px; }
+    h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-sub { font-size: clamp(16px, 2vw, 20px); color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 44px; }
+    .hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 70px; }
+    .btn-hero { padding: 15px 34px; border-radius: 12px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .btn-hero-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: white; }
+    .btn-hero-primary:hover { opacity: 0.88; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,106,247,0.3); }
+    .btn-hero-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-hero-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* STATS */
+    .stats { display: flex; gap: 50px; justify-content: center; flex-wrap: wrap; margin-bottom: 100px; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* FEATURES */
+    .features { position: relative; z-index: 1; padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+    .section-label { text-align: center; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 14px; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: clamp(28px, 4vw, 44px); font-weight: 800; text-align: center; margin-bottom: 60px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: border-color 0.2s, transform 0.2s; }
+    .feature-card:hover { border-color: rgba(124,106,247,0.4); transform: translateY(-3px); }
+    .feature-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 16px; }
+    .feature-icon.purple { background: rgba(124,106,247,0.15); }
+    .feature-icon.pink { background: rgba(247,106,171,0.15); }
+    .feature-icon.green { background: rgba(106,247,171,0.15); }
+    .feature-icon.blue { background: rgba(106,171,247,0.15); }
+    .feature-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* HOW IT WORKS */
+    .how { position: relative; z-index: 1; padding: 80px 20px; max-width: 900px; margin: 0 auto; }
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; gap: 24px; align-items: flex-start; padding: 28px 0; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; }
+    .step-num { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 800; flex-shrink: 0; }
+    .step-content h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .step-content p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+    /* CTA SECTION */
+    .cta-section { position: relative; z-index: 1; padding: 80px 20px; text-align: center; }
+    .cta-card { background: var(--surface); border: 1px solid rgba(124,106,247,0.25); border-radius: 24px; padding: 60px 40px; max-width: 700px; margin: 0 auto;
+      box-shadow: 0 0 80px rgba(124,106,247,0.08); }
+    .cta-card h2 { font-family: 'Syne', sans-serif; font-size: clamp(26px, 4vw, 40px); font-weight: 800; margin-bottom: 16px; }
+    .cta-card p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+
+    /* FOOTER */
+    footer { position: relative; z-index: 1; text-align: center; padding: 30px 20px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .stats { gap: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+  <div class="grid-lines"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">🔗</div>
+      <span class="nav-logo-text">LinkForge</span>
+    </a>
+    <div class="nav-right">
+      <a href="/login" class="btn-nav btn-outline">Login</a>
+      <a href="/login" class="btn-nav btn-filled">Get Started →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Fast, Reliable & Free to Use
+    </div>
+    <h1>Shorten Links.<br><span>Amplify Reach.</span></h1>
+    <p class="hero-sub">Create powerful short links with custom social media previews. Track clicks, manage links, and grow your audience — all in one place.</p>
+    <div class="hero-cta">
+      <a href="/login" class="btn-hero btn-hero-primary">🔗 Create Short Link</a>
+      <a href="#features" class="btn-hero btn-hero-secondary">See Features</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Uptime Guaranteed</div></div>
+      <div class="stat"><div class="stat-num">302</div><div class="stat-label">Fast Redirect</div></div>
+      <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Links You Can Create</div></div>
+      <div class="stat"><div class="stat-num">0ms</div><div class="stat-label">Extra Load Time</div></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon purple">🎨</div>
+        <div class="feature-title">Custom Social Previews</div>
+        <div class="feature-desc">Set your own title, description, and image for every link. Control exactly how your links appear on Facebook, WhatsApp, and Twitter.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon pink">⚡</div>
+        <div class="feature-title">Lightning Fast Redirects</div>
+        <div class="feature-desc">302 redirects served from Cloudflare's global edge network. Your users land on the destination instantly, no delays.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon green">📊</div>
+        <div class="feature-title">Click Tracking</div>
+        <div class="feature-desc">Know exactly how many people clicked your links. Real-time analytics right in your dashboard — no third party tools needed.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon blue">☁️</div>
+        <div class="feature-title">Cloud Image Library</div>
+        <div class="feature-desc">Upload and manage images via Cloudinary integration. Reuse your images across multiple links without re-uploading.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon purple">🤖</div>
+        <div class="feature-title">Smart Bot Detection</div>
+        <div class="feature-desc">Facebook crawlers see your beautiful OG preview. Real users get instant redirect. Best of both worlds — always.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon pink">🔒</div>
+        <div class="feature-title">Secure & Private</div>
+        <div class="feature-desc">Admin-only access. Your links and data are protected. Built on Cloudflare Workers for enterprise-grade security.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">3 steps to a perfect link</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Paste your destination URL</h3>
+          <p>Enter the long URL you want to shorten. LinkForge can even auto-fetch the OG tags from your destination.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Customize your preview</h3>
+          <p>Set a custom title, description, and image — or use the destination's existing OG tags. Preview exactly how it looks before saving.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Share your short link</h3>
+          <p>Copy your clean short link and share it anywhere. Facebook, WhatsApp, Instagram — your preview will always look perfect.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-card">
+      <h2>Ready to forge your links?</h2>
+      <p>Join and start creating powerful short links with beautiful social previews today.</p>
+      <a href="/login" class="btn-hero btn-hero-primary">🚀 Get Started — It's Free</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 <a href="/">LinkForge</a> — Built with ❤️ on Cloudflare Workers &nbsp;|&nbsp; <a href="/login">Admin Login</a></p>
+  </footer>
+</body>
+</html>`);
 });
 
 // ─── LOGIN PAGE ───────────────────────────────────────────────────────────────
