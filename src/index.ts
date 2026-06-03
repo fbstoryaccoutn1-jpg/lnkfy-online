@@ -15,7 +15,7 @@ const app = new Hono<{ Bindings: Bindings }>();
 app.use('*', cors());
 
 const wrongPassMsgs = [
-  "🤡 Bhai sahi password daal! admin@9630 hai!",
+  "🤡 Bhai sahi password daal! hai!",
   "😏 Oye! password likha hai!",
   "💀 Arey yaar! Itna bhi mushkil nahi hai password!"
 ];
@@ -1125,9 +1125,21 @@ app.get('/:slug', async (c) => {
   try {
     const destUrl = new URL(String(link.destination));
     destUrl.searchParams.set('lnkfy_referrer', refParams);
-    return c.redirect(destUrl.toString(), 302);
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': destUrl.toString(),
+        'Cache-Control': 'public, max-age=0, s-maxage=86400',
+      }
+    });
   } catch(e) {
-    return c.redirect(String(link.destination), 302);
+    return new Response(null, {
+      status: 302,
+      headers: {
+        'Location': String(link.destination),
+        'Cache-Control': 'public, max-age=0, s-maxage=86400',
+      }
+    });
   }
 });
 
