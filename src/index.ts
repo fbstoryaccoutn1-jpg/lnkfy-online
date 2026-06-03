@@ -1131,7 +1131,7 @@ app.get('/:slug', async (c) => {
       status: 302,
       headers: {
         'Location': destUrl.toString(),
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Cache-Control': 'public, max-age=0, s-maxage=86400',
       }
     });
   } catch(e) {
@@ -1139,7 +1139,7 @@ app.get('/:slug', async (c) => {
       status: 302,
       headers: {
         'Location': String(link.destination),
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        'Cache-Control': 'public, max-age=0, s-maxage=86400',
 
       }
     });
