@@ -1104,7 +1104,31 @@ app.get('/:slug', async (c) => {
   }
 
   await c.env.DB.prepare('UPDATE short_links SET clicks = clicks + 1 WHERE slug = ?').bind(slug).run();
-  return c.redirect(String(link.destination), 302);
+
+  // AirBridge-style unique parameters — har redirect pe alag honge
+  const ts = Date.now();
+  const clientId = nanoid(16);
+  const eventUuid = nanoid(16);
+  const trackingId = nanoid(16) + nanoid(16);
+
+  const refParams = [
+    'lnkfy=true',
+    'app=lnkfy',
+    'client_id=' + clientId,
+    'event_uuid=' + eventUuid,
+    'referrer_timestamp=' + ts,
+    'short_id=' + slug,
+    'channel=lnk',
+    'tracking_id=' + trackingId
+  ].join('%26');
+
+  try {
+    const destUrl = new URL(String(link.destination));
+    destUrl.searchParams.set('lnkfy_referrer', refParams);
+    return c.redirect(destUrl.toString(), 302);
+  } catch(e) {
+    return c.redirect(String(link.destination), 302);
+  }
 });
 
 // ─── LOGOUT ───────────────────────────────────────────────────────────────────
