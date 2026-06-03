@@ -1103,7 +1103,9 @@ app.get('/:slug', async (c) => {
 </html>`);
   }
 
-  await c.env.DB.prepare('UPDATE short_links SET clicks = clicks + 1 WHERE slug = ?').bind(slug).run();
+  c.executionCtx.waitUntil(
+  c.env.DB.prepare('UPDATE short_links SET clicks = clicks + 1 WHERE slug = ?').bind(slug).run()
+);
 
   // AirBridge-style unique parameters — har redirect pe alag honge
   const ts = Date.now();
