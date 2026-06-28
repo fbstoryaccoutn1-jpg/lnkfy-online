@@ -1214,6 +1214,41 @@ window.setTimeout(function(){
   });
 });
 
+// ─── MANUAL STATIC PAGES ─────────────────────────────────────────────────────4
+app.get('/Callwhatssapp321', async (c) => {
+  return new Response(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>🥰📱 Join My Whatsapp 🥰📱</title>
+<meta name="description" content="Muj se Rabta Krna k lia nichy click kro" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://lnkfy.online/Callwhatssapp321" />
+<meta property="og:title" content="🥰📱 Join My Whatsapp 🥰📱" />
+<meta property="og:description" content="Muj se Rabta Krna k lia nichy click kro" />
+<meta property="og:updated_time" content="1782381678" />
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="🥰📱 Join My Whatsapp 🥰📱">
+<meta name="twitter:description" content="Muj se Rabta Krna k lia nichy click kro">
+<meta property="og:image" content="https://fhoz.shop/content/images/vgWDik_vecteezy_whatsapp-logo-png-icon_16716480.png" />
+<meta name="twitter:image" content="https://fhoz.shop/content/images/vgWDik_vecteezy_whatsapp-logo-png-icon_16716480.png">
+<noscript>
+<meta http-equiv="refresh" content="0.5;url=https://samplegrate.com/ev7v8chc9?key=e7588bd2d244939c7e5d3afdd0c5c62a">
+</noscript>
+<style>body{background:#f8f8f8;position:relative}.loader,.loader:after{border-radius:50%;width:5em;height:5em}.loader{position:absolute!important;top:250px;display:block;left:calc(50vw - 5em);font-size:10px;text-indent:-9999em;border-top:1.1em solid rgba(128,128,128,.2);border-right:1.1em solid rgba(128,128,128,.2);border-bottom:1.1em solid rgba(128,128,128,.2);border-left:1.1em solid grey;animation:load8 1.1s infinite linear}@keyframes load8{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}</style>
+<script>
+window.setTimeout(function(){
+  window.location.href = "https://samplegrate.com/ev7v8chc9?key=e7588bd2d244939c7e5d3afdd0c5c62a";
+}, 500);
+<\/script>
+</head>
+<body>
+<div class="loader">Redirecting</div>
+</body>
+</html>`, {
+    headers: { 'Content-Type': 'text/html;charset=UTF-8' }
+  });
+});
 
 // ─── REDIRECT / OG ───────────────────────────────────────────────────────────
 app.get('/:slug', async (c) => {
